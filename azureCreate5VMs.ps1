@@ -31,7 +31,7 @@ write-host "ask for admin credential details to create"
 $cred = Get-Credential -Message "Type the name and password of the local administrator account."
 
 # I'm going to setup 5 vms. 
-write-host "setup 5 VMs (took 30 mins in serial)"
+write-host "setup 5 VMs (took 30 mins in serial (6mins per VM))"
 foreach ($number in 1..5){ 
 
       # setting up a network interface for our VM  
