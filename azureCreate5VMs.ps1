@@ -13,7 +13,11 @@ $baseVMName = "WIN-NOOB-"
 $totalServers = 3
 
 # login
-login-azurermaccount
+write-host "Already logged in (y to bypass logon)?"
+$alreadyloggedin = read-host
+if ($alreadyloggedin -ne "y") {
+    login-azurermaccount
+}
 
 # resource group, ties related resources together (i can delete it all with one command later for example). 
 write-host "$(get-date) - create resource group"
@@ -59,6 +63,7 @@ foreach ($number in 1..$totalServers){
 
       $myVm = Set-AzureRmVMOperatingSystem -VM $myVm -Windows -ComputerName "myVM" -Credential $cred -ProvisionVMAgent -EnableAutoUpdate
 
+      $myVm = Set-AzureRmVMSourceImage -VM $myVm -PublisherName "MicrosoftWindowsServer" -Offer "WindowsServer" -Skus "2016-DataCenter" -Version "latest"
 
       $myVm = Add-AzureRmVMNetworkInterface -VM $myVm -Id $myNIC.Id
 

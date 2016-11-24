@@ -6,7 +6,12 @@ write-host "$(get-date) - ------------------------------------------------------
 $resourceGroupName = "noobExample_RG"
 
 # login
-login-azurermaccount
+write-host "Already logged in (y to bypass logon)?"
+$alreadyloggedin = read-host
+if ($alreadyloggedin -ne "y") {
+    login-azurermaccount
+}
+
 
 $vms = get-AzureRMVM -ResourceGroupName $resourceGroupName
 
