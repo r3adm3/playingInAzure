@@ -59,7 +59,7 @@ foreach ($number in 1..$totalServers){
 
       $myVm = Set-AzureRmVMOperatingSystem -VM $myVm -Windows -ComputerName "myVM" -Credential $cred -ProvisionVMAgent -EnableAutoUpdate
 
-      $myVm = Set-AzureRmVMSourceImage -VM $myVm -PublisherName "MicrosoftWindowsServer" -Offer "WindowsServer" -Skus "2012-R2-Datacenter" -Version "latest"
+      $myVm = Set-AzureRmVMSourceImage -VM $myVm -PublisherName "MicrosoftWindowsServer" -Offer "WindowsServer" -Skus "2016-Datacenter" -Version "latest"
 
       $myVm = Add-AzureRmVMNetworkInterface -VM $myVm -Id $myNIC.Id
 
