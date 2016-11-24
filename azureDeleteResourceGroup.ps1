@@ -10,7 +10,7 @@ login-azurermaccount
 
 # resource group, ties related resources together (i can delete it all with one command later for example). 
 write-host "$(get-date) - delete resource group"
-remove-azurermresourcegroup -name $resourceGroupName
+remove-azurermresourcegroup -name $resourceGroupName -force
 
 $now2 = get-date
 # write out how long it took. 

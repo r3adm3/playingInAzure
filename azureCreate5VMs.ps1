@@ -59,7 +59,6 @@ foreach ($number in 1..$totalServers){
 
       $myVm = Set-AzureRmVMOperatingSystem -VM $myVm -Windows -ComputerName "myVM" -Credential $cred -ProvisionVMAgent -EnableAutoUpdate
 
-      $myVm = Set-AzureRmVMSourceImage -VM $myVm -PublisherName "MicrosoftWindowsServer" -Offer "WindowsServer" -Skus "2016-Datacenter" -Version "latest"
 
       $myVm = Add-AzureRmVMNetworkInterface -VM $myVm -Id $myNIC.Id
 
@@ -73,6 +72,8 @@ foreach ($number in 1..$totalServers){
 
       #Do it. Create them
       New-AzureRmVM -ResourceGroupName $resourceGroupName -Location $location -VM $myVM
+
+      write-host "$(get-date) - Finished VM Creation"
 
 }
 $now2 = get-date
