@@ -1,11 +1,17 @@
-﻿$now = get-date
+$now = get-date
 write-host "$(get-date) - --------------------------------------------------------------------"
 write-host "$(get-date) - Example Azure Script starts $now (demo purposes only)"
 write-host "$(get-date) - --------------------------------------------------------------------"
 
+$pass = ConvertTo-SecureString "*****" -AsPlainText -Force
+$cred = new-object -TypeName pscredential -ArgumentList "****", $pass
+
+Login-AzureRmAccount -credential $cred 
+
 $resourceGroupName = "noobExample_RG"
-$location = "northeurope"
-$myStorageAcctName = "noobexamplestorage"
+$location = "westeurope"
+#storageAcctName must be lowercase
+$myStorageAcctName = "noobexstorage"
 $adminAcctName = "noobAdmin"
 Write-host "Enter a Password which you can use to logon to the new VMs with:"
 $adminAccPassword = read-host
@@ -16,7 +22,7 @@ $totalServers = 3
 write-host "Already logged in (y to bypass logon)?"
 $alreadyloggedin = read-host
 if ($alreadyloggedin -ne "y") {
-    login-azurermaccount
+    login-azurermaccount -Credential $cred
 }
 
 # resource group, ties related resources together (i can delete it all with one command later for example). 
@@ -59,11 +65,11 @@ foreach ($number in 1..$totalServers){
       $vmName = "$baseVMName$number"
 
      # create a "configuration" object to hold common values for our VM. 
-      $myVm = New-AzureRmVMConfig -VMName $vmName -VMSize "Standard_A1"
+      $myVm = New-AzureRmVMConfig -VMName $vmName -VMSize "Standard_A1_V2"
 
       $myVm = Set-AzureRmVMOperatingSystem -VM $myVm -Windows -ComputerName "myVM" -Credential $cred -ProvisionVMAgent -EnableAutoUpdate
 
-      $myVm = Set-AzureRmVMSourceImage -VM $myVm -PublisherName "MicrosoftWindowsServer" -Offer "WindowsServer" -Skus "2016-DataCenter" -Version "latest"
+      $myVm = Set-AzureRmVMSourceImage -VM $myVm -PublisherName "MicrosoftWindowsServer" -Offer "WindowsServer" -Skus "2012-R2-Datacenter" -Version "latest"
 
       $myVm = Add-AzureRmVMNetworkInterface -VM $myVm -Id $myNIC.Id
 
@@ -84,8 +90,6 @@ foreach ($number in 1..$totalServers){
 $now2 = get-date
 # write out how long it took. 
 write-host "$(get-date) - finished. Took $(($now2 - $now).minutes) minute(s) and $(($now2 - $now).seconds) second(s)"
-
-
 
 
 
